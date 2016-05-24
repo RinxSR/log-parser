@@ -48,47 +48,48 @@ public class MyLogParser implements LogParser {
                 case CHECKSUM_STRING:
                     listOfCkecksumString.add(inputString);
 
+
                     for (int i = 0; i < listOfCkecksumString.size(); i++) {
+                        for (int j = 0; j < listOfTmeString.size(); j++) {
 
-                        String checkSum = listOfCkecksumString.get(i).substring(4);
-                        ArrayList<String> tempList = getListToCheck();
-
-
-                        for (int j = (int) Math.pow(2, tempList.size()) - 1; j > 1; j--) {
-
-                            String binaryForm = Integer.toBinaryString(j);
+                            String checkSum = listOfCkecksumString.get(i).substring(4);
+                            ArrayList<String> tempList = getListToCheck(listOfTmeString.get(j));
 
 
-                            ArrayList<String> listForCheckMD5 = new ArrayList<>();
+                            for (int k = (int) Math.pow(2, tempList.size()) - 1; k > 1; k--) {
 
-                            for (int k = 0; k < binaryForm.length(); k++) {
-                                if (binaryForm.charAt(k) == '1') {
-                                    listForCheckMD5.add(tempList.get(k));
-                                }
-                            }
+                                String binaryForm = Integer.toBinaryString(k);
 
-                            if (checkSumMD5(listForCheckMD5).equals(checkSum)) {
 
-                                for (String s : listForCheckMD5) {
-                                    writer.println(s);
-                                    listOfSimpleString.remove(s);
+                                ArrayList<String> listForCheckMD5 = new ArrayList<>();
+
+                                for (int l = 0; l < binaryForm.length(); l++) {
+                                    if (binaryForm.charAt(l) == '1') {
+                                        listForCheckMD5.add(tempList.get(l));
+                                    }
                                 }
 
-                                writer.println(listOfCkecksumString.get(i));
-                                writer.flush();
+                                if (checkSumMD5(listForCheckMD5).equals(checkSum)) {
 
-                                listOfTmeString.remove(0);
-                                listOfCkecksumString.remove(i);
+                                    for (String s : listForCheckMD5) {
+                                        writer.println(s);
+                                        listOfSimpleString.remove(s);
+                                    }
 
-                                break;
+                                    writer.println(listOfCkecksumString.get(i));
+                                    writer.flush();
+
+                                    listOfTmeString.remove(j);
+                                    listOfCkecksumString.remove(i);
+
+                                    break;
+                                }
                             }
                         }
                     }
                     break;
             }
         }
-
-
     }
 
     /**
@@ -170,15 +171,17 @@ public class MyLogParser implements LogParser {
         return checkSumMD5(tempString.toString());
     }
 
+
     /**
-     * Собираю.
+     * Создание коллекции из TimeString и набора свободных SimpleString.
      *
-     * @return the list to check
+     * @param timeString - входящая строка с датой
+     * @return возвращает созданную коллекцию
      */
-    public ArrayList<String> getListToCheck() {
+    public ArrayList<String> getListToCheck(String timeString) {
         ArrayList<String> tempList = new ArrayList<>();
 
-        tempList.add(listOfTmeString.get(0));
+        tempList.add(timeString);
 
         for (String simpleString : listOfSimpleString) {
             tempList.add(simpleString);

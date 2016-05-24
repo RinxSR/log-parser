@@ -7,7 +7,7 @@ public class Test {
 
         MyLogParser myLogParser = new MyLogParser();
 
-        File inputFile = new File("D:\\Work by Rinat\\Projects\\log-parser\\src\\test\\resources\\testExample2.log");
+        File inputFile = new File("D:\\Work by Rinat\\Projects\\log-parser\\src\\test\\resources\\testExample1.log");
         File outputFile = new File("D:\\Work by Rinat\\Projects\\log-parser\\src\\main\\resources\\OutFile.log");
 
         FileInputStream fileInputStream = new FileInputStream(inputFile);
