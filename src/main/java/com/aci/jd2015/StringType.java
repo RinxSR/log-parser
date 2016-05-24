@@ -1,5 +1,22 @@
 package com.aci.jd2015;
 
+/**
+ * Перечисление возможного состояни строк сообщения.
+ */
 public enum StringType {
-    CHECKSUM_STRING, SIMPLE_STRING, TIME_STRING
+
+    /**
+     * Строка, содержащая контрольную сумму.
+     */
+    CHECKSUM_STRING,
+
+    /**
+     * Обычная строка с текстом.
+     */
+    SIMPLE_STRING,
+
+    /**
+     * Строка, содержащая дату сообщения.
+     */
+    TIME_STRING
 }
