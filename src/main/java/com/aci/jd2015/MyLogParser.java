@@ -47,47 +47,54 @@ public class MyLogParser implements LogParser {
                     break;
                 case CHECKSUM_STRING:
                     listOfCkecksumString.add(inputString);
+                    findMessageOnChecksum(writer);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Перебор коллекции (1 TimeString + n SimpleString) для поиска совпадения с входящей контрольной суммой.
+     *
+     * @param writer - райтер для записи в OutFile
+     */
+    public void findMessageOnChecksum(PrintWriter writer) {
+        for (int i = 0; i < listOfCkecksumString.size(); i++) {
+            for (int j = 0; j < listOfTmeString.size(); j++) {
+
+                String checkSum = listOfCkecksumString.get(i).substring(4);
+                ArrayList<String> tempList = getListToCheck(listOfTmeString.get(j));
 
 
-                    for (int i = 0; i < listOfCkecksumString.size(); i++) {
-                        for (int j = 0; j < listOfTmeString.size(); j++) {
+                for (int k = (int) Math.pow(2, tempList.size()) - 1; k > 1; k--) {
 
-                            String checkSum = listOfCkecksumString.get(i).substring(4);
-                            ArrayList<String> tempList = getListToCheck(listOfTmeString.get(j));
+                    String binaryForm = Integer.toBinaryString(k);
 
 
-                            for (int k = (int) Math.pow(2, tempList.size()) - 1; k > 1; k--) {
+                    ArrayList<String> listForCheckMD5 = new ArrayList<>();
 
-                                String binaryForm = Integer.toBinaryString(k);
-
-
-                                ArrayList<String> listForCheckMD5 = new ArrayList<>();
-
-                                for (int l = 0; l < binaryForm.length(); l++) {
-                                    if (binaryForm.charAt(l) == '1') {
-                                        listForCheckMD5.add(tempList.get(l));
-                                    }
-                                }
-
-                                if (checkSumMD5(listForCheckMD5).equals(checkSum)) {
-
-                                    for (String s : listForCheckMD5) {
-                                        writer.println(s);
-                                        listOfSimpleString.remove(s);
-                                    }
-
-                                    writer.println(listOfCkecksumString.get(i));
-                                    writer.flush();
-
-                                    listOfTmeString.remove(j);
-                                    listOfCkecksumString.remove(i);
-
-                                    break;
-                                }
-                            }
+                    for (int l = 0; l < binaryForm.length(); l++) {
+                        if (binaryForm.charAt(l) == '1') {
+                            listForCheckMD5.add(tempList.get(l));
                         }
                     }
-                    break;
+
+                    if (checkSumMD5(listForCheckMD5).equals(checkSum)) {
+
+                        for (String s : listForCheckMD5) {
+                            writer.println(s);
+                            listOfSimpleString.remove(s);
+                        }
+
+                        writer.println(listOfCkecksumString.get(i));
+                        writer.flush();
+
+                        listOfTmeString.remove(j);
+                        listOfCkecksumString.remove(i);
+
+                        return; //заменил break на return
+                    }
+                }
             }
         }
     }
