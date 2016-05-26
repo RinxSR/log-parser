@@ -17,6 +17,8 @@ public class MyLogParser implements LogParser {
     private ArrayList<String> listOfSimpleString;
     private ArrayList<String> listOfCkecksumString;
 
+    private ArrayList<String> messagesToWrite;
+
     /**
      * Инициализация MyLogParser.
      */
@@ -24,6 +26,7 @@ public class MyLogParser implements LogParser {
         listOfTmeString = new ArrayList<>();
         listOfSimpleString = new ArrayList<>();
         listOfCkecksumString = new ArrayList<>();
+        messagesToWrite = new ArrayList<>();
     }
 
     @Override
@@ -51,6 +54,7 @@ public class MyLogParser implements LogParser {
                     break;
             }
         }
+        writeMessagesToFile(writer, messagesToWrite);
     }
 
     /**
@@ -81,16 +85,21 @@ public class MyLogParser implements LogParser {
 
                     if (checkSumMD5(listForCheckMD5).equals(checkSum)) {
 
+                        StringBuilder message = new StringBuilder();
+
                         for (String s : listForCheckMD5) {
-                            writer.println(s);
+                            message.append(s);
+                            message.append("\n");
                             listOfSimpleString.remove(s);
                         }
 
-                        writer.println(listOfCkecksumString.get(i));
-                        writer.flush();
+                        message.append(listOfCkecksumString.get(i));
+                        message.append("\n");
 
                         listOfTmeString.remove(j);
                         listOfCkecksumString.remove(i);
+
+                        messagesToWrite.add(message.toString());
 
                         return; //заменил break на return
                     }
@@ -98,6 +107,22 @@ public class MyLogParser implements LogParser {
             }
         }
     }
+
+    /**
+     * Сортировка сообщений по дате и запись в файл.
+     *
+     * @param writer - райтер для записи в JutFile
+     * @param messagesToWrite несортированная коллекция сообщений
+     */
+    public void writeMessagesToFile(PrintWriter writer, ArrayList<String> messagesToWrite) {
+
+        Collections.sort(messagesToWrite);
+
+            for (String message : messagesToWrite) {
+                writer.print(message);
+            }
+            writer.flush();
+        }
 
     /**
      * Определение типа строки.
