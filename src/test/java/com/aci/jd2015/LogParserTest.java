@@ -1,16 +1,9 @@
 package com.aci.jd2015;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+
+import java.io.*;
 
 public class LogParserTest {
   public static void startProcessCheck(LogParser parser, String inFileName, String checkFileName)
@@ -49,11 +42,11 @@ public class LogParserTest {
 
   @Test
   public void testExample1Process() throws Exception {
-    //startProcessCheck(new LogParser(), "/testExample1.log", "/testExample1_answer.log");
+    startProcessCheck(new MyLogParser(), "/testExample1.log", "/testExample1_answer.log");
   }
 
   @Test
   public void testExample2Process() throws Exception {
-    //startProcessCheck(new LogParser(), "/testExample2.log", "/testExample2_answer.log");
+    startProcessCheck(new MyLogParser(), "/testExample2.log", "/testExample2_answer.log");
   }
 }
