@@ -17,7 +17,7 @@ public class MyLogParser implements LogParser {
     private ArrayList<String> listOfSimpleString;
     private ArrayList<String> listOfCkecksumString;
 
-    private ArrayList<String> messagesToWrite;
+    private ArrayList<Message> messagesToWrite;
 
     /**
      * Инициализация MyLogParser.
@@ -62,7 +62,7 @@ public class MyLogParser implements LogParser {
      *
      * @param writer - райтер для записи в OutFile
      */
-    public void findMessageOnChecksum(PrintWriter writer) {
+    private void findMessageOnChecksum(PrintWriter writer) {
         for (int i = 0; i < listOfCkecksumString.size(); i++) {
             for (int j = 0; j < listOfTmeString.size(); j++) {
 
@@ -99,7 +99,7 @@ public class MyLogParser implements LogParser {
                         listOfTmeString.remove(j);
                         listOfCkecksumString.remove(i);
 
-                        messagesToWrite.add(message.toString());
+                        messagesToWrite.add(new Message(message.toString()));
 
                         return; //заменил break на return
                     }
@@ -111,18 +111,18 @@ public class MyLogParser implements LogParser {
     /**
      * Сортировка сообщений по дате и запись в файл.
      *
-     * @param writer - райтер для записи в JutFile
+     * @param writer          - райтер для записи в JutFile
      * @param messagesToWrite несортированная коллекция сообщений
      */
-    public void writeMessagesToFile(PrintWriter writer, ArrayList<String> messagesToWrite) {
+    private void writeMessagesToFile(PrintWriter writer, ArrayList<Message> messagesToWrite) {
 
         Collections.sort(messagesToWrite);
 
-            for (String message : messagesToWrite) {
-                writer.print(message);
-            }
-            writer.flush();
+        for (Message message : messagesToWrite) {
+            writer.print(message.toString());
         }
+        writer.flush();
+    }
 
     /**
      * Определение типа строки.
@@ -130,7 +130,7 @@ public class MyLogParser implements LogParser {
      * @param s - проверяемая строка
      * @return тип строки (Enum StringType)
      */
-    public StringType stringChecker(String s) {
+    private StringType stringChecker(String s) {
 
         if (checkOnTimeString(s)) {
             return StringType.TIME_STRING;
@@ -147,7 +147,7 @@ public class MyLogParser implements LogParser {
      * @param stringToCheck - проверяемая строка
      * @return true если регуярное выражение присутствует в строке
      */
-    public boolean checkOnTimeString(String stringToCheck) {
+    private boolean checkOnTimeString(String stringToCheck) {
 
         String regexForTimeString = "\\d\\d\u002E\\d\\d\u002E\\d\\d\\d\\d\u0020\\d\\d\u003A\\d\\d\u003A\\d\\d\u002E\\d\\d\\d";
 
@@ -161,7 +161,7 @@ public class MyLogParser implements LogParser {
      * @param stringToCheck - проверяемая строка
      * @return true если строка начинается с CRC_
      */
-    public boolean checkOnChecksumString(String stringToCheck) {
+    private boolean checkOnChecksumString(String stringToCheck) {
         return stringToCheck.startsWith("CRC_");
     }
 
@@ -171,7 +171,7 @@ public class MyLogParser implements LogParser {
      * @param stringToCheckSum входная строка для вычисления контрольной суммы
      * @return возвращает строку с контрольной суммой
      */
-    public String checkSumMD5(String stringToCheckSum) {
+    private String checkSumMD5(String stringToCheckSum) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] array = md.digest(stringToCheckSum.getBytes());
@@ -192,7 +192,7 @@ public class MyLogParser implements LogParser {
      * @param listToCheckSum входной список для вычисления контрольной суммы
      * @return возвращает строку с контрольной суммой
      */
-    public String checkSumMD5(List<String> listToCheckSum) {
+    private String checkSumMD5(List<String> listToCheckSum) {
 
         StringBuilder tempString = new StringBuilder();
 
@@ -210,7 +210,7 @@ public class MyLogParser implements LogParser {
      * @param timeString - входящая строка с датой
      * @return возвращает созданную коллекцию
      */
-    public ArrayList<String> getListToCheck(String timeString) {
+    private ArrayList<String> getListToCheck(String timeString) {
         ArrayList<String> tempList = new ArrayList<>();
 
         tempList.add(timeString);
