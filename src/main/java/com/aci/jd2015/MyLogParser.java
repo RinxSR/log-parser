@@ -1,10 +1,9 @@
 package com.aci.jd2015;
 
+
 import java.io.*;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -83,7 +82,7 @@ public class MyLogParser implements LogParser {
                         }
                     }
 
-                    if (checkSumMD5(listForCheckMD5).equals(checkSum)) {
+                    if (CheckSumfFinder.checkSumMD5(listForCheckMD5).equals(checkSum)) {
 
                         StringBuilder message = new StringBuilder();
 
@@ -101,7 +100,7 @@ public class MyLogParser implements LogParser {
 
                         messagesToWrite.add(new Message(message.toString()));
 
-                        return; //заменил break на return
+                        return;
                     }
                 }
             }
@@ -164,45 +163,6 @@ public class MyLogParser implements LogParser {
     private boolean checkOnChecksumString(String stringToCheck) {
         return stringToCheck.startsWith("CRC_");
     }
-
-    /**
-     * Вычисление контрольной суммы по алгоритму MD5 для строки.
-     *
-     * @param stringToCheckSum входная строка для вычисления контрольной суммы
-     * @return возвращает строку с контрольной суммой
-     */
-    private String checkSumMD5(String stringToCheckSum) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] array = md.digest(stringToCheckSum.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for (byte anArray : array) {
-                sb.append(Integer.toHexString((anArray & 0xFF) | 0x100).substring(1, 3));
-            }
-            return sb.toString();
-        } catch (java.security.NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Вычисление контрольной суммы по алгоритму MD5 для списка.
-     *
-     * @param listToCheckSum входной список для вычисления контрольной суммы
-     * @return возвращает строку с контрольной суммой
-     */
-    private String checkSumMD5(List<String> listToCheckSum) {
-
-        StringBuilder tempString = new StringBuilder();
-
-        for (String s : listToCheckSum) {
-            tempString.append(s);
-        }
-
-        return checkSumMD5(tempString.toString());
-    }
-
 
     /**
      * Создание коллекции из TimeString и набора свободных SimpleString.
