@@ -1,5 +1,8 @@
 package com.aci.jd2015;
 
+/**
+ * Класс для обработки сообщений.
+ */
 public class Message implements Comparable<Message> {
 
     private String message;
@@ -7,6 +10,10 @@ public class Message implements Comparable<Message> {
     private int dayOfMessage;
     private int monthOfMessage;
     private int yearOfMessage;
+    private int hourOfMessage;
+    private int minuteOfMessage;
+    private int secondOfMessage;
+    private int millisecondOfMessage;
 
     public String getMessage() {
         return message;
@@ -71,11 +78,6 @@ public class Message implements Comparable<Message> {
     public void setMillisecondOfMessage(int millisecondOfMessage) {
         this.millisecondOfMessage = millisecondOfMessage;
     }
-
-    private int hourOfMessage;
-    private int minuteOfMessage;
-    private int secondOfMessage;
-    private int millisecondOfMessage;
 
     public Message(String message) {
 

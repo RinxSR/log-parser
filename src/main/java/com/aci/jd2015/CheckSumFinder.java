@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * Вспомогательный класс для нахождения контрольных сумм.
  */
-public class CheckSumfFinder {
+public class CheckSumFinder {
 
-    private CheckSumfFinder() {
+    private CheckSumFinder() {
 
     }
 
@@ -23,7 +23,6 @@ public class CheckSumfFinder {
     public static String checkSumMD5(String stringToCheckSum) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-//            byte[] array = md.digest(stringToCheckSum.getBytes());
             byte[] array = md.digest(StringUtils.getBytesUtf8(stringToCheckSum));
             StringBuilder sb = new StringBuilder();
             for (byte anArray : array) {

@@ -82,7 +82,7 @@ public class MyLogParser implements LogParser {
                         }
                     }
 
-                    if (CheckSumfFinder.checkSumMD5(listForCheckMD5).equals(checkSum)) {
+                    if (CheckSumFinder.checkSumMD5(listForCheckMD5).equals(checkSum)) {
 
                         StringBuilder message = new StringBuilder();
 
@@ -110,7 +110,7 @@ public class MyLogParser implements LogParser {
     /**
      * Сортировка сообщений по дате и запись в файл.
      *
-     * @param writer          - райтер для записи в JutFile
+     * @param writer - райтер для записи в OutFile
      * @param messagesToWrite несортированная коллекция сообщений
      */
     private void writeMessagesToFile(PrintWriter writer, ArrayList<Message> messagesToWrite) {
