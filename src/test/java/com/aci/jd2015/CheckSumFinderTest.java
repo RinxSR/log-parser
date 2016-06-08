@@ -1,5 +1,6 @@
 package com.aci.jd2015;
 
+import com.aci.jd2015.logic.CheckSumFinder;
 import org.junit.Assert;
 import org.junit.Test;
 

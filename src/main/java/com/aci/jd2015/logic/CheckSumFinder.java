@@ -1,4 +1,4 @@
-package com.aci.jd2015;
+package com.aci.jd2015.logic;
 
 import org.apache.commons.codec.binary.StringUtils;
 

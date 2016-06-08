@@ -1,4 +1,4 @@
-package com.aci.jd2015;
+package com.aci.jd2015.logic;
 
 /**
  * Класс для обработки сообщений.

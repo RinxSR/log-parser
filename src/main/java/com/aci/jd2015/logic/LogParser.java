@@ -1,4 +1,4 @@
-package com.aci.jd2015;
+package com.aci.jd2015.logic;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,5 +1,7 @@
 package com.aci.jd2015;
 
+import com.aci.jd2015.logic.LogParser;
+import com.aci.jd2015.logic.MyLogParser;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 

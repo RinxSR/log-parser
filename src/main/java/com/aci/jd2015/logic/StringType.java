@@ -1,4 +1,4 @@
-package com.aci.jd2015;
+package com.aci.jd2015.logic;
 
 /**
  * Перечисление возможного состояни строк сообщения.
